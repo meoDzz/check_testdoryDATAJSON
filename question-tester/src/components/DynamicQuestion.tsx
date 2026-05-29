@@ -10,6 +10,8 @@ interface Props {
   onAnswerChange: (ans: any) => void;
   isReviewMode?: boolean;
   reviewResult?: any;
+  correct_answer?: any;
+  explanation?: string;
 }
 
 export default function DynamicQuestion({ content, userAnswer, onAnswerChange }: Props) {

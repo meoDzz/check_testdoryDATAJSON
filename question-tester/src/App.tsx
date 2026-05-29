@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DynamicQuestion from './components/DynamicQuestion';
 import type { IEnglishQuestionJSONB } from './components/types/exam';
 
-const MOCK_TEMPLATES: Record<string, IEnglishQuestionJSONB> = {
+const MOCK_TEMPLATES: Record<string, any> = {
   multiple_choice: {
     type: "multiple_choice",
     instruction: "Choose the correct answer to complete the sentence.",
@@ -12,17 +12,25 @@ const MOCK_TEMPLATES: Record<string, IEnglishQuestionJSONB> = {
       { value: "B", text: "to go" },
       { value: "C", text: "go" },
       { value: "D", text: "went" }
-    ]
+    ],
+    correct_answer: "going",
+    explanation: "Cấu trúc: suggest + V-ing (đề nghị làm gì đó)."
   },
   open_cloze: {
     type: "open_cloze",
-    instruction: "Fill in each blank with ONE suitable word.",
-    passage: "Yesterday, I went (to) the market and bought some (fresh) apples. It was a nice (day) overall."
+    instruction: "Read the text and fill in each blank with exactly ONE word.",
+    passage: "In many parts (1) the world, severe weather events are becoming more frequent. This is largely due (2) climate change.",
+    correct_answer: {
+      "0": "of",
+      "1": "to"
+    }
   },
   word_order: {
     type: "word_order",
     instruction: "Rearrange the words to make a meaningful sentence.",
-    question_text: "They / football / playing / are / park / in / the"
+    question_text: "is / school / big / my / new",
+    correct_answer: "my new school is big",
+    explanation: "Standard Subject + Verb + Object word order."
   },
   error_correction: {
     type: "error_correction",
@@ -33,61 +41,85 @@ const MOCK_TEMPLATES: Record<string, IEnglishQuestionJSONB> = {
       { value: "B", text: "here" },
       { value: "C", text: "three" },
       { value: "D", text: "years" }
-    ]
-  },
-  fill_blank: {
-    type: "fill_blank",
-    instruction: "Fill in the blank with the correct answer.",
-    question_text: "The capital of Vietnam is ________."
-  },
-  cloze_multiple_choice: {
-    type: "cloze_multiple_choice",
-    instruction: "Read the passage and choose the best answer for each blank.",
-    passage: "I usually get up at 6 AM. Then I (1) my teeth and have (2) with my family.",
-    sub_questions: [
-      { id: "1", options: ["A. brush", "B. wash", "C. clean", "D. make"] },
-      { id: "2", options: ["A. lunch", "B. dinner", "C. breakfast", "D. snack"] }
-    ]
+    ],
+    correct_answer: "have",
+    explanation: "Chủ ngữ 'She' là ngôi thứ 3 số ít nên phải dùng 'has' thay vì 'have'."
   },
   reading_comprehension: {
     type: "reading_listening_comprehension",
-    instruction: "Read the passage and answer the questions below.",
-    passage: "Da Nang is one of the most beautiful coastal cities in Vietnam. It is known for its sandy beaches and history as a French colonial port.",
+    instruction: "Read the passage and decide if the statements are True (T) or False (F).",
+    passage: "The school library is very big. It has thousands of books. Students come here to read or borrow books.",
     sub_questions: [
-      { 
-        id: "q1", 
-        question_text: "Where is Da Nang located?", 
-        options: [{ value: "A", text: "Northern Vietnam" }, { value: "B", text: "Central Vietnam" }, { value: "C", text: "Southern Vietnam" }] 
+      {
+        id: "41",
+        question_text: "The library is small.",
+        options: [
+          { value: "T", text: "True" },
+          { value: "F", text: "False" }
+        ],
+        correct_answer: "False"
       },
-      { 
-        id: "q2", 
-        question_text: "What is Da Nang known for?", 
-        options: [{ value: "A", text: "Mountains" }, { value: "B", text: "Sandy beaches" }, { value: "C", text: "Snow" }] 
+      {
+        id: "42",
+        question_text: "It has thousands of books.",
+        options: [
+          { value: "T", text: "True" },
+          { value: "F", text: "False" }
+        ],
+        correct_answer: "True"
       }
     ]
   },
   pronunciation: {
     type: "pronunciation",
-    instruction: "Choose the word whose underlined part is pronounced differently.",
-    question_text: "Find the word with a different sound.",
+    instruction: "Pronunciation (Odd One Out)",
+    question_text: "Choose the word whose underlined part is pronounced differently.",
     options: [
-      { value: "A", text: "l<b>oo</b>k" },
-      { value: "B", text: "b<b>oo</b>k" },
-      { value: "C", text: "f<b>oo</b>t" },
-      { value: "D", text: "d<b>oo</b>r" }
+      { value: "A", text: "st<u>u</u>dy" },
+      { value: "B", text: "l<u>u</u>nch" },
+      { value: "C", text: "s<u>u</u>bject" },
+      { value: "D", text: "m<u>u</u>sic" }
+    ],
+    correct_answer: "music"
+  },
+  listening_open_cloze: {
+    type: "listening_open_cloze",
+    instruction: "Listen to the recording and fill in the missing words.",
+    audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB.mp3",
+    passage: "My name is Lan. I am a (1) at a secondary school. My school is very (2).",
+    correct_answer: {
+      "1": ["student"],
+      "2": ["big/beautiful"]
+    }
+  },
+  listening_comprehension: {
+    type: "reading_listening_comprehension",
+    instruction: "Listen to the passage and choose the correct answer.",
+    audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB-1.mp3",
+    show_passage: true,
+    passage: "Mai is 11. She goes to Sunrise School. She likes Art. She plays the piano.",
+    sub_questions: [
+      {
+        id: "s1_q1",
+        question_text: "How old is Mai?",
+        options: [
+          { value: "A", text: "10" },
+          { value: "B", text: "11" },
+          { value: "C", text: "12" },
+          { value: "D", text: "13" }
+        ],
+        correct_answer: "11"
+      },
+      {
+        id: "s1_q2",
+        question_text: "Her school is...",
+        options: [
+          { value: "A", text: "Sunrise" },
+          { value: "B", text: "Sunset" }
+        ],
+        correct_answer: "Sunrise"
+      }
     ]
-  },
-  writing_essay: {
-    type: "writing_essay",
-    instruction: "Write a short essay based on the prompt.",
-    prompt: "Describe your favorite hobby and explain why you enjoy it.",
-    minimum_words: 150
-  },
-  listening_gap_filling: {
-    type: "listening_gap_filling",
-    instruction: "Listen to the audio and fill in the missing words.",
-    audio_url: "https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg",
-    passage: "Welcome to our (1). Today we will talk about the (2) changes."
   }
 };
 
