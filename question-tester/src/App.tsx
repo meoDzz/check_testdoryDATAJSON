@@ -187,7 +187,7 @@
 //         <div className="p-6 overflow-y-auto bg-slate-900 flex flex-col gap-6">
 //           <div className="bg-white text-slate-900 p-6 rounded-3xl shadow-xl border border-slate-200">
 //             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 border-b pb-2">LIVE PREVIEW UI</div>
-            
+
 //             {/* Hiển thị dựa trên trạng thái hợp lệ của JSON */}
 //             {!jsonError && parsedContent ? (
 //               <DynamicQuestion
@@ -263,82 +263,135 @@ const MOCK_TEMPLATES: Record<string, any> = {
     correct_answer: "have",
     explanation: "Chủ ngữ 'She' là ngôi thứ 3 số ít nên phải dùng 'has' thay vì 'have'."
   },
-  reading_comprehension: {
-    type: "reading_listening_comprehension",
-    instruction: "Read the passage and decide if the statements are True (T) or False (F).",
-    passage: "The school library is very big. It has thousands of books. Students come here to read or borrow books.",
-    sub_questions: [
-      {
-        id: "41",
-        question_text: "The library is small.",
-        options: [
-          { value: "T", text: "True" },
-          { value: "F", text: "False" }
-        ],
-        correct_answer: "False"
-      },
-      {
-        id: "42",
-        question_text: "It has thousands of books.",
-        options: [
-          { value: "T", text: "True" },
-          { value: "F", text: "False" }
-        ],
-        correct_answer: "True"
-      }
-    ]
-  },
-  pronunciation: {
-    type: "pronunciation",
+  // reading_comprehension: {
+  //   type: "reading_listening_comprehension",
+  //   instruction: "Read the passage and decide if the statements are True (T) or False (F).",
+  //   passage: "The school library is very big. It has thousands of books. Students come here to read or borrow books.",
+  //   sub_questions: [
+  //     {
+  //       id: "41",
+  //       question_text: "The library is small.",
+  //       options: [
+  //         { value: "T", text: "True" },
+  //         { value: "F", text: "False" }
+  //       ],
+  //       correct_answer: "False"
+  //     },
+  //     {
+  //       id: "42",
+  //       question_text: "It has thousands of books.",
+  //       options: [
+  //         { value: "T", text: "True" },
+  //         { value: "F", text: "False" }
+  //       ],
+  //       correct_answer: "True"
+  //     }
+  //   ]
+  // },
+
+  reading_comprehension:{
+  "id": "q_15",
+    "type": "reading_listening_comprehension",
+      "instruction": "Read the passage and answer the following questions.",
+        "show_passage": true,
+          "passage": "Oaktree is a famous boarding school located in the Scottish Highlands. The teachers here do not just give lectures; they guide the students through everything. Students learn various practical skills such as survival skills, agriculture, or astronomy. The school is surrounded by vast forests and a large lake. Every day, the students wake up at 6 a.m. At weekends, instead of playing video games, they go hiking or kayaking.",
+            "sub_questions": [
+              {
+                "id": "s2_q5",
+                "question_text": "What is the role of the teachers at Oaktree?",
+                "options": [
+                  { "value": "A", "text": "They only give lectures." },
+                  { "value": "B", "text": "They play video games with students." },
+                  { "value": "C", "text": "They guide the students." },
+                  { "value": "D", "text": "They build wooden cabins." }
+                ],
+                "correct_answer": "They guide the students."
+              },
+              {
+                "id": "s2_q6",
+                "question_text": "Where is the Oaktree boarding school located?",
+                "options": [],
+                "correct_answer": "Scottish Highlands"
+              },
+              {
+                "id": "s2_q7",
+                "question_text": "Name two practical skills that students learn at Oaktree. (Choose two)",
+                "options": [],
+                "correct_answer": "Survival skills, agriculture, or astronomy."
+              },
+              {
+                "id": "s2_q8",
+                "question_text": "What surrounds the school?",
+                "options": [],
+                "correct_answer": "Vast forests and a large lake."
+              },
+              {
+                "id": "s2_q9",
+                "question_text": "What time do the students wake up every day?",
+                "options": [],
+                "correct_answer": "6 a.m."
+              },
+              {
+                "id": "s2_q10",
+                "question_text": "What do students do at weekends instead of playing video games?",
+                "options": [],
+                "correct_answer": "They go hiking or kayaking."
+              }
+            ]
+},
+
+
+pronunciation: {
+  type: "pronunciation",
     instruction: "Pronunciation (Odd One Out)",
-    question_text: "Choose the word whose underlined part is pronounced differently.",
-    options: [
-      { value: "A", text: "st<u>u</u>dy" },
-      { value: "B", text: "l<u>u</u>nch" },
-      { value: "C", text: "s<u>u</u>bject" },
-      { value: "D", text: "m<u>u</u>sic" }
-    ],
-    correct_answer: "music"
-  },
-  listening_open_cloze: {
-    type: "listening_open_cloze",
+      question_text: "Choose the word whose underlined part is pronounced differently.",
+        options: [
+          { value: "A", text: "st<u>u</u>dy" },
+          { value: "B", text: "l<u>u</u>nch" },
+          { value: "C", text: "s<u>u</u>bject" },
+          { value: "D", text: "m<u>u</u>sic" }
+        ],
+          correct_answer: "music"
+},
+listening_open_cloze: {
+  type: "listening_open_cloze",
     instruction: "Listen to the recording and fill in the missing words.",
-    audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB.mp3",
-    passage: "My name is Lan. I am a (1) at a secondary school. My school is very (2).",
-    correct_answer: {
-      "1": ["student"],
+      audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB.mp3",
+        passage: "My name is Lan. I am a (1) at a secondary school. My school is very (2).",
+          correct_answer: {
+    "1": ["student"],
       "2": ["big/beautiful"]
-    }
-  },
-  listening_comprehension: {
-    type: "reading_listening_comprehension",
-    instruction: "Listen to the passage and choose the correct answer.",
-    audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB-1.mp3",
-    show_passage: true,
-    passage: "Mai is 11. She goes to Sunrise School. She likes Art. She plays the piano.",
-    sub_questions: [
-      {
-        id: "s1_q1",
-        question_text: "How old is Mai?",
-        options: [
-          { value: "A", text: "10" },
-          { value: "B", text: "11" },
-          { value: "C", text: "12" },
-          { value: "D", text: "13" }
-        ],
-        correct_answer: "11"
-      },
-      {
-        id: "s1_q2",
-        question_text: "Her school is...",
-        options: [
-          { value: "A", text: "Sunrise" },
-          { value: "B", text: "Sunset" }
-        ],
-        correct_answer: "Sunrise"
-      }
-    ]
   }
+},
+listening_comprehension: {
+  type: "reading_listening_comprehension",
+    instruction: "Listen to the passage and choose the correct answer.",
+      audio_url: "/cdn/testdata/english/unit1/listening/file_example_MP3_700KB-1.mp3",
+        show_passage: true,
+          passage: "Mai is 11. She goes to Sunrise School. She likes Art. She plays the piano.",
+            sub_questions: [
+              {
+                id: "s1_q1",
+                question_text: "How old is Mai?",
+                options: [
+                  { value: "A", text: "10" },
+                  { value: "B", text: "11" },
+                  { value: "C", text: "12" },
+                  { value: "D", text: "13" }
+                ],
+                correct_answer: "11"
+              },
+              {
+                id: "s1_q2",
+                question_text: "Her school is...",
+                options: [
+                  { value: "A", text: "Sunrise" },
+                  { value: "B", text: "Sunset" }
+                ],
+                correct_answer: "Sunrise"
+              }
+            ]
+}
 };
 
 export default function App() {
@@ -372,10 +425,10 @@ export default function App() {
   };
 
   // Tối ưu key render để tránh giật lag UI
-  const componentKey = parsedContent 
-    ? Array.isArray(parsedContent) 
-      ? `array-${parsedContent.length}` 
-      : `${parsedContent.type}-test` 
+  const componentKey = parsedContent
+    ? Array.isArray(parsedContent)
+      ? `array-${parsedContent.length}`
+      : `${parsedContent.type}-test`
     : 'invalid';
 
   return (
@@ -419,7 +472,7 @@ export default function App() {
         <div className="p-6 overflow-y-auto bg-slate-900 flex flex-col gap-6">
           <div className="bg-white text-slate-900 p-6 rounded-3xl shadow-xl border border-slate-200">
             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 border-b pb-2">LIVE PREVIEW UI</div>
-            
+
             {/* Hiển thị dựa trên trạng thái hợp lệ của JSON */}
             {!jsonError && parsedContent ? (
               Array.isArray(parsedContent) ? (
@@ -443,7 +496,7 @@ export default function App() {
                 </div>
               ) : (
                 <DynamicQuestion
-                  key={componentKey} 
+                  key={componentKey}
                   questionId={parsedContent.id || "test-id"}
                   content={parsedContent}
                   userAnswer={userAnswer}
