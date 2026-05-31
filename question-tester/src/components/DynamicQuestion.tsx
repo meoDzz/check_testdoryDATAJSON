@@ -273,35 +273,55 @@ export default function DynamicQuestion({ content, userAnswer, onAnswerChange }:
                 )}
 
                 <div className="space-y-6 divide-y divide-slate-100">
-                  {content.sub_questions?.map((sub, sIdx) => (
-                    <div key={sub.id} className="pt-4 first:pt-0">
-                      <p className="font-bold text-slate-800 mb-3 text-sm">
-                        Câu {sIdx + 1}: {sub.question_text}
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {sub.options?.map((opt) => {
-                          const contentToSave = typeof opt === 'string' ? opt : opt.text;
-                          const label = typeof opt === 'string' ? opt : `${opt.value}. ${opt.text}`;
-                          const isSelected = userAnswer?.[sub.id] === contentToSave;
+                  {content.sub_questions?.map((sub, sIdx) => {
+                    // Kiểm tra xem câu hỏi này là trắc nghiệm hay điền từ
+                    const isMultipleChoice = sub.options && sub.options.length > 0;
 
-                          return (
-                            <button
-                              key={typeof opt === 'string' ? opt : opt.value}
-                              type="button"
-                              onClick={() => handleSubAnswerChange(sub.id, contentToSave)}
-                              className={`p-4 border-2 rounded-2xl text-left font-bold transition-all active:scale-[0.99] w-full flex items-center ${
-                                isSelected
-                                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                                  : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                              }`}
-                            >
-                              {label}
-                            </button>
-                          );
-                        })}
+                    return (
+                      <div key={sub.id} className="pt-4 first:pt-0">
+                        <p className="font-bold text-slate-800 mb-3 text-sm">
+                          Câu {sIdx + 1}: {sub.question_text}
+                        </p>
+                        
+                        {isMultipleChoice ? (
+                          // 1. RENDER TRẮC NGHIỆM (MULTIPLE CHOICE)
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {sub.options?.map((opt) => {
+                              const contentToSave = typeof opt === 'string' ? opt : opt.text;
+                              const label = typeof opt === 'string' ? opt : `${opt.value}. ${opt.text}`;
+                              const isSelected = userAnswer?.[sub.id] === contentToSave;
+
+                              return (
+                                <button
+                                  key={typeof opt === 'string' ? opt : opt.value}
+                                  type="button"
+                                  onClick={() => handleSubAnswerChange(sub.id, contentToSave)}
+                                  className={`p-4 border-2 rounded-2xl text-left font-bold transition-all active:scale-[0.99] w-full flex items-center ${
+                                    isSelected
+                                      ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                                  }`}
+                                >
+                                  {label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          // 2. RENDER ĐIỀN TỪ (SHORT ANSWER)
+                          <div className="mt-2">
+                            <input
+                              type="text"
+                              placeholder="Nhập câu trả lời của bạn..."
+                              value={userAnswer?.[sub.id] || ''}
+                              onChange={(e) => handleSubAnswerChange(sub.id, e.target.value)}
+                              className="w-full p-4 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all"
+                            />
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );
